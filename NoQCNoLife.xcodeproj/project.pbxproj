@@ -7,18 +7,44 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		847A51EB25804720002DEF2D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847A51EA25804720002DEF2D /* AppDelegate.swift */; };
 		847A51ED25804723002DEF2D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 847A51EC25804723002DEF2D /* Assets.xcassets */; };
 		847A51F025804723002DEF2D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 847A51EE25804723002DEF2D /* MainMenu.xib */; };
+		847A51FA25804931002DEF2D /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 847A51F825804931002DEF2D /* LICENSE */; };
+		847A51FB25804931002DEF2D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 847A51F925804931002DEF2D /* README.md */; };
+		847A520125804998002DEF2D /* Bt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847A51FD25804998002DEF2D /* Bt.swift */; };
+		847A520225804998002DEF2D /* StatusItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847A51FE25804998002DEF2D /* StatusItem.swift */; };
+		847A5205258049F6002DEF2D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847A5204258049F5002DEF2D /* AppDelegate.swift */; };
+		847A520B25804ACF002DEF2D /* Bose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847A520725804ACF002DEF2D /* Bose.swift */; };
+		847A520D25804ACF002DEF2D /* BmapPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847A520925804ACF002DEF2D /* BmapPacket.swift */; };
+		847A520E25804ACF002DEF2D /* EventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847A520A25804ACF002DEF2D /* EventHandler.swift */; };
+		847A521725804B34002DEF2D /* DeviceManagementFunctionBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847A521125804B34002DEF2D /* DeviceManagementFunctionBlock.swift */; };
+		847A521825804B34002DEF2D /* FunctionBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847A521225804B34002DEF2D /* FunctionBlock.swift */; };
+		847A521925804B34002DEF2D /* AudioManagementFunctionBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847A521325804B34002DEF2D /* AudioManagementFunctionBlock.swift */; };
+		847A521A25804B34002DEF2D /* SettingsFunctionBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847A521425804B34002DEF2D /* SettingsFunctionBlock.swift */; };
+		847A521B25804B34002DEF2D /* StatusFunctionBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847A521525804B34002DEF2D /* StatusFunctionBlock.swift */; };
+		847A521C25804B34002DEF2D /* ProductInfoFunctionBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847A521625804B34002DEF2D /* ProductInfoFunctionBlock.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		847A51E72580471F002DEF2D /* NoQCNoLife.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NoQCNoLife.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		847A51EA25804720002DEF2D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		847A51EC25804723002DEF2D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		847A51EF25804723002DEF2D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		847A51F125804723002DEF2D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		847A51F225804723002DEF2D /* NoQCNoLife.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NoQCNoLife.entitlements; sourceTree = "<group>"; };
+		847A51F825804931002DEF2D /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		847A51F925804931002DEF2D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		847A51FD25804998002DEF2D /* Bt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bt.swift; sourceTree = "<group>"; };
+		847A51FE25804998002DEF2D /* StatusItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusItem.swift; sourceTree = "<group>"; };
+		847A5204258049F5002DEF2D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		847A520725804ACF002DEF2D /* Bose.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bose.swift; sourceTree = "<group>"; };
+		847A520925804ACF002DEF2D /* BmapPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BmapPacket.swift; sourceTree = "<group>"; };
+		847A520A25804ACF002DEF2D /* EventHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHandler.swift; sourceTree = "<group>"; };
+		847A521125804B34002DEF2D /* DeviceManagementFunctionBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceManagementFunctionBlock.swift; sourceTree = "<group>"; };
+		847A521225804B34002DEF2D /* FunctionBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctionBlock.swift; sourceTree = "<group>"; };
+		847A521325804B34002DEF2D /* AudioManagementFunctionBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioManagementFunctionBlock.swift; sourceTree = "<group>"; };
+		847A521425804B34002DEF2D /* SettingsFunctionBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsFunctionBlock.swift; sourceTree = "<group>"; };
+		847A521525804B34002DEF2D /* StatusFunctionBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusFunctionBlock.swift; sourceTree = "<group>"; };
+		847A521625804B34002DEF2D /* ProductInfoFunctionBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductInfoFunctionBlock.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +61,8 @@
 		847A51DE2580471F002DEF2D = {
 			isa = PBXGroup;
 			children = (
+				847A51F825804931002DEF2D /* LICENSE */,
+				847A51F925804931002DEF2D /* README.md */,
 				847A51E92580471F002DEF2D /* NoQCNoLife */,
 				847A51E82580471F002DEF2D /* Products */,
 			);
@@ -51,13 +79,40 @@
 		847A51E92580471F002DEF2D /* NoQCNoLife */ = {
 			isa = PBXGroup;
 			children = (
-				847A51EA25804720002DEF2D /* AppDelegate.swift */,
+				847A51F225804723002DEF2D /* NoQCNoLife.entitlements */,
+				847A51F125804723002DEF2D /* Info.plist */,
+				847A5204258049F5002DEF2D /* AppDelegate.swift */,
+				847A51FD25804998002DEF2D /* Bt.swift */,
+				847A51FE25804998002DEF2D /* StatusItem.swift */,
+				847A521E2580517D002DEF2D /* bose */,
 				847A51EC25804723002DEF2D /* Assets.xcassets */,
 				847A51EE25804723002DEF2D /* MainMenu.xib */,
-				847A51F125804723002DEF2D /* Info.plist */,
-				847A51F225804723002DEF2D /* NoQCNoLife.entitlements */,
 			);
 			path = NoQCNoLife;
+			sourceTree = "<group>";
+		};
+		847A521D25805157002DEF2D /* FunctionBlocks */ = {
+			isa = PBXGroup;
+			children = (
+				847A521325804B34002DEF2D /* AudioManagementFunctionBlock.swift */,
+				847A521125804B34002DEF2D /* DeviceManagementFunctionBlock.swift */,
+				847A521225804B34002DEF2D /* FunctionBlock.swift */,
+				847A521625804B34002DEF2D /* ProductInfoFunctionBlock.swift */,
+				847A521425804B34002DEF2D /* SettingsFunctionBlock.swift */,
+				847A521525804B34002DEF2D /* StatusFunctionBlock.swift */,
+			);
+			path = FunctionBlocks;
+			sourceTree = "<group>";
+		};
+		847A521E2580517D002DEF2D /* bose */ = {
+			isa = PBXGroup;
+			children = (
+				847A521D25805157002DEF2D /* FunctionBlocks */,
+				847A520925804ACF002DEF2D /* BmapPacket.swift */,
+				847A520725804ACF002DEF2D /* Bose.swift */,
+				847A520A25804ACF002DEF2D /* EventHandler.swift */,
+			);
+			path = bose;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -91,6 +146,11 @@
 				TargetAttributes = {
 					847A51E62580471F002DEF2D = {
 						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -117,7 +177,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				847A51FA25804931002DEF2D /* LICENSE in Resources */,
 				847A51ED25804723002DEF2D /* Assets.xcassets in Resources */,
+				847A51FB25804931002DEF2D /* README.md in Resources */,
 				847A51F025804723002DEF2D /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -129,7 +191,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				847A51EB25804720002DEF2D /* AppDelegate.swift in Sources */,
+				847A521A25804B34002DEF2D /* SettingsFunctionBlock.swift in Sources */,
+				847A5205258049F6002DEF2D /* AppDelegate.swift in Sources */,
+				847A521925804B34002DEF2D /* AudioManagementFunctionBlock.swift in Sources */,
+				847A520E25804ACF002DEF2D /* EventHandler.swift in Sources */,
+				847A521725804B34002DEF2D /* DeviceManagementFunctionBlock.swift in Sources */,
+				847A520225804998002DEF2D /* StatusItem.swift in Sources */,
+				847A521B25804B34002DEF2D /* StatusFunctionBlock.swift in Sources */,
+				847A521C25804B34002DEF2D /* ProductInfoFunctionBlock.swift in Sources */,
+				847A520D25804ACF002DEF2D /* BmapPacket.swift in Sources */,
+				847A520B25804ACF002DEF2D /* Bose.swift in Sources */,
+				847A520125804998002DEF2D /* Bt.swift in Sources */,
+				847A521825804B34002DEF2D /* FunctionBlock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
