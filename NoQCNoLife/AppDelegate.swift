@@ -25,6 +25,9 @@ import os.log
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     
+    // store last selected Anr mode
+    var lastSelectedAnrMode = Bose.AnrMode.OFF
+    
     var bt: Bt!
     var statusItem: StatusItem!
     var connectBtUserNotification: IOBluetoothUserNotification!
@@ -64,6 +67,9 @@ extension AppDelegate: BluetoothDelegate {
         print("[BT]: Connected to \(productID.getProductName())")
         #endif
         self.statusItem.connected(productID)
+        
+        // Persist last selected Anr mode on connect
+        noiseCancelModeSelected(lastSelectedAnrMode)
     }
     
     func onDisconnect() {
@@ -85,6 +91,11 @@ extension AppDelegate: BluetoothDelegate {
         print("[AnrModeEvent]: \(mode?.toString() ?? "nil")")
         #endif
         self.statusItem.setNoiseCancelMode(mode)
+        
+        // Update last selected Anr mode
+        if (mode != nil) {
+            lastSelectedAnrMode = mode!
+        }
     }
 }
 
