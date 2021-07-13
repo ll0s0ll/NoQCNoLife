@@ -51,6 +51,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         super.awakeFromNib()
         self.statusItem = StatusItem(self)
     }
+    
+    private func sendSetGetAnrModePacket(_ anrMode: Bose.AnrMode) -> Bool {
+        assert(self.bt != nil, "self.bt is nil")
+        
+        guard var packet = Bose.generateSetGetAnrModePacket(anrMode) else {
+            os_log("Failed to generate setGetAnrPacket.", type: .error)
+            return false
+        }
+        if (self.bt.sendPacketSync(&packet) == false) {
+            return false
+        }
+        
+        return true
+    }
 }
 
 extension AppDelegate: BluetoothDelegate {
@@ -64,6 +78,13 @@ extension AppDelegate: BluetoothDelegate {
         print("[BT]: Connected to \(productID.getProductName())")
         #endif
         self.statusItem.connected(productID)
+        
+        if (Preferences.getLastSelectedAnrMode() != nil) {
+            let result = sendSetGetAnrModePacket(Preferences.getLastSelectedAnrMode()!)
+            if (!result) {
+                self.noiseCancelModeChanged(nil)
+            }
+        }
     }
     
     func onDisconnect() {
@@ -85,6 +106,10 @@ extension AppDelegate: BluetoothDelegate {
         print("[AnrModeEvent]: \(mode?.toString() ?? "nil")")
         #endif
         self.statusItem.setNoiseCancelMode(mode)
+        
+        if (mode != nil) {
+            Preferences.setLastSelectedAnrMode(mode!)
+        }
     }
 }
 
@@ -117,12 +142,8 @@ extension AppDelegate: StatusItemDelegate {
     }
     
     func noiseCancelModeSelected(_ mode: Bose.AnrMode) {
-        guard var packet = Bose.generateSetGetAnrModePacket(mode) else {
-            os_log("Failed to generate setGetAnrPacket.", type: .error)
-            self.noiseCancelModeChanged(nil)
-            return
-        }
-        if (self.bt.sendPacketSync(&packet) == false) {
+        let result = sendSetGetAnrModePacket(mode)
+        if (!result) {
             self.noiseCancelModeChanged(nil)
         }
     }

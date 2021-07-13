@@ -23,6 +23,7 @@
 		847A521A25804B34002DEF2D /* SettingsFunctionBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847A521425804B34002DEF2D /* SettingsFunctionBlock.swift */; };
 		847A521B25804B34002DEF2D /* StatusFunctionBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847A521525804B34002DEF2D /* StatusFunctionBlock.swift */; };
 		847A521C25804B34002DEF2D /* ProductInfoFunctionBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847A521625804B34002DEF2D /* ProductInfoFunctionBlock.swift */; };
+		84896F3D269BBE9D00B62D1A /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84896F3C269BBE9D00B62D1A /* Preferences.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,7 +36,7 @@
 		847A51F925804931002DEF2D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		847A51FD25804998002DEF2D /* Bt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bt.swift; sourceTree = "<group>"; };
 		847A51FE25804998002DEF2D /* StatusItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusItem.swift; sourceTree = "<group>"; };
-		847A5204258049F5002DEF2D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		847A5204258049F5002DEF2D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		847A520725804ACF002DEF2D /* Bose.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bose.swift; sourceTree = "<group>"; };
 		847A520925804ACF002DEF2D /* BmapPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BmapPacket.swift; sourceTree = "<group>"; };
 		847A520A25804ACF002DEF2D /* EventHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHandler.swift; sourceTree = "<group>"; };
@@ -45,6 +46,7 @@
 		847A521425804B34002DEF2D /* SettingsFunctionBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsFunctionBlock.swift; sourceTree = "<group>"; };
 		847A521525804B34002DEF2D /* StatusFunctionBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusFunctionBlock.swift; sourceTree = "<group>"; };
 		847A521625804B34002DEF2D /* ProductInfoFunctionBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductInfoFunctionBlock.swift; sourceTree = "<group>"; };
+		84896F3C269BBE9D00B62D1A /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 				847A51F125804723002DEF2D /* Info.plist */,
 				847A5204258049F5002DEF2D /* AppDelegate.swift */,
 				847A51FD25804998002DEF2D /* Bt.swift */,
+				84896F3C269BBE9D00B62D1A /* Preferences.swift */,
 				847A51FE25804998002DEF2D /* StatusItem.swift */,
 				847A521E2580517D002DEF2D /* bose */,
 				847A51EC25804723002DEF2D /* Assets.xcassets */,
@@ -200,6 +203,7 @@
 				847A521B25804B34002DEF2D /* StatusFunctionBlock.swift in Sources */,
 				847A521C25804B34002DEF2D /* ProductInfoFunctionBlock.swift in Sources */,
 				847A520D25804ACF002DEF2D /* BmapPacket.swift in Sources */,
+				84896F3D269BBE9D00B62D1A /* Preferences.swift in Sources */,
 				847A520B25804ACF002DEF2D /* Bose.swift in Sources */,
 				847A520125804998002DEF2D /* Bt.swift in Sources */,
 				847A521825804B34002DEF2D /* FunctionBlock.swift in Sources */,
