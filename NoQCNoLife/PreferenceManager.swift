@@ -1,5 +1,5 @@
 /*
- Copyright (C) 2020 Shun Ito
+ Copyright (C) 2021 Shun Ito
  
  This file is part of 'No QC, No Life'.
  
@@ -20,21 +20,30 @@
 
 import Cocoa
 
-class Preferences {
+class PreferenceManager {
     
     static let LAST_SELECTED_ANR_MODE_KEY: String = "lastSelectedAnrMode"
     
-    static func getLastSelectedAnrMode() -> Bose.AnrMode? {
-        // integer()は値が存在しない場合も0を返すので、値が0なのか、値が存在しないのか判別できない。使えない。
-        // let rawValue = UserDefaults.standard.integer(forKey: LAST_SELECTED_ANR_MODE_KEY)
-        // return rawValue == 0 ? nil : Bose.AnrMode(rawValue: Int8(rawValue))
-        
-        let object = UserDefaults.standard.object(forKey: LAST_SELECTED_ANR_MODE_KEY)
-        return object == nil ? nil : Bose.AnrMode(rawValue: object as! Int8)
+    static func getLastSelectedAnrMode(_ product: Bose.ProductIds) -> Bose.AnrMode? {
+        let storedObject = UserDefaults.standard.dictionary(forKey: LAST_SELECTED_ANR_MODE_KEY)
+        if let storedValue = storedObject?[String(product.getProductId())] as? Int8 {
+            return Bose.AnrMode(rawValue: storedValue)
+        } else {
+            return nil
+        }
     }
     
-    static func setLastSelectedAnrMode(_ anrMode: Bose.AnrMode) {
-        UserDefaults.standard.set(Int(anrMode.rawValue), forKey: LAST_SELECTED_ANR_MODE_KEY)
+    static func setLastSelectedAnrMode(product: Bose.ProductIds, anrMode: Bose.AnrMode) {
+        
+        var storedObject = UserDefaults.standard.dictionary(forKey: LAST_SELECTED_ANR_MODE_KEY)
+        
+        if (storedObject == nil) {
+            storedObject = [String(product.getProductId()): anrMode.rawValue] as [String: Any]
+        } else {
+            storedObject![String(product.getProductId())] = anrMode.rawValue
+        }
+        
+        UserDefaults.standard.set(storedObject, forKey: LAST_SELECTED_ANR_MODE_KEY)
     }
     
     static func removeLastSelectedAnrMode() {

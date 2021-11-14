@@ -1,5 +1,5 @@
 /*
- Copyright (C) 2020 Shun Ito
+ Copyright (C) 2021 Shun Ito
  
  This file is part of 'No QC, No Life'.
  
@@ -46,8 +46,16 @@ class SettingsFunctionBlock : FunctionBlock {
         return AnrModeFunction.generateGetAnrModePacket()
     }
     
+    static func generateGetBassControlPacket() -> BmapPacket {
+        return BassControlFunction.generateGetBassControlPacket()
+    }
+    
     static func generateSetGetAnrModePacket(_ anrMode: Bose.AnrMode) -> BmapPacket {
         return AnrModeFunction.generateSetGetAnrModePacket(anrMode)
+    }
+    
+    static func generateSetGetBassControllPacket(_ step: Int) -> BmapPacket {
+        return BassControlFunction.generateSetGetBassControlPacket(step)
     }
     
     /*static func generateGetMultiPointPacket() -> BmapPacket {
@@ -62,6 +70,8 @@ class SettingsFunctionBlock : FunctionBlock {
         switch bmapPacket.getFunctionId() {
         case FunctionIds.ANR.rawValue:
             AnrModeFunction.parsePacket(bmapPacket: bmapPacket, eventHandler: eventHandler)
+        case FunctionIds.BASS_CONTROL.rawValue:
+            BassControlFunction.parsePacket(bmapPacket: bmapPacket, eventHandler: eventHandler)
         case nil:
             assert(false, "Invalid function id.")
             os_log("Invalid settings function block packet.", type: .error)
@@ -127,6 +137,53 @@ private class AnrModeFunction: Function {
     }
 } // AnrModeFunction
 
+
+private class BassControlFunction: Function {
+    
+    static let FUNCTION_BLOCK_ID = SettingsFunctionBlock.ID
+    static let FUNCTION_ID = SettingsFunctionBlock.FunctionIds.BASS_CONTROL
+    
+    static func generateGetBassControlPacket() -> BmapPacket {
+        return BmapPacket(functionBlockId: self.FUNCTION_BLOCK_ID,
+                          functionId: self.FUNCTION_ID.rawValue,
+                          operatorId: BmapPacket.OperatorIds.GET,
+                          deviceId: 0,
+                          port: 0,
+                          payload: [])
+    }
+
+    static func generateSetGetBassControlPacket(_ step: Int) -> BmapPacket {
+        return BmapPacket(functionBlockId: self.FUNCTION_BLOCK_ID,
+                          functionId: self.FUNCTION_ID.rawValue,
+                          operatorId: BmapPacket.OperatorIds.SET_GET,
+                          deviceId: 0,
+                          port: 0,
+                          payload: [Int8(step)])
+    }
+    
+    static func parsePacket(bmapPacket: BmapPacket, eventHandler: EventHandler) {
+        if (bmapPacket.getOperatorId() != BmapPacket.OperatorIds.STATUS) {
+            assert(false, "Invalid operator.")
+            os_log("Invalid bass control packet.", type: .error)
+            eventHandler.bassControlStepChanged(nil)
+            return
+        }
+        
+        let payload: [Int8]! = bmapPacket.getPayload()
+        if (payload == nil || payload.count == 0 || payload.count != 3) {
+            assert(false, "Invalid payload.")
+            os_log("Invalid bass control packet.", type: .error)
+            eventHandler.bassControlStepChanged(nil)
+            return
+        }
+
+//        let minStep = Int(payload[0])
+//        let maxStep = Int(payload[1])
+        let currentStep = Int(payload[2])
+        
+        eventHandler.bassControlStepChanged(currentStep)
+    }
+}
 
 /*private class MultiPointFunction: Function {
     

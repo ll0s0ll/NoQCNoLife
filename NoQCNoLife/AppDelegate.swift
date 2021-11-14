@@ -1,5 +1,5 @@
 /*
- Copyright (C) 2020 Shun Ito
+ Copyright (C) 2021 Shun Ito
  
  This file is part of 'No QC, No Life'.
  
@@ -52,6 +52,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.statusItem = StatusItem(self)
     }
     
+    private func sendGetBassControlPacket () -> Bool {
+        guard var packet = Bose.generateGetBassControlPacket() else {
+            os_log("Failed to generate getBassControlPacket.", type: .error)
+            return false
+        }
+        return self.bt.sendPacketSync(&packet)
+    }
+    
     private func sendSetGetAnrModePacket(_ anrMode: Bose.AnrMode) -> Bool {
         assert(self.bt != nil, "self.bt is nil")
         
@@ -65,22 +73,34 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         return true
     }
+    
+    private func sendSetGetBassControlPacket(_ step: Int) -> Bool {
+        guard var packet = Bose.generateSetGetBassControlPacket(step) else {
+            os_log("Failed to generate setGetBassControl packet.", type: .error)
+            return false
+        }
+        if (self.bt.sendPacketSync(&packet) == false) {
+            return false
+        }
+        
+        return true
+    }
 }
 
 extension AppDelegate: BluetoothDelegate {
     
     func onConnect() {
-        guard let productID = Bose.ProductIds.getById(self.bt.getProductId()) else {
+        guard let product = Bose.ProductIds.getById(self.bt.getProductId()) else {
             assert(false, "Invalid prodcut id.")
             return
         }
         #if DEBUG
-        print("[BT]: Connected to \(productID.getProductName())")
+        print("[BT]: Connected to \(product.getProductName())")
         #endif
-        self.statusItem.connected(productID)
+        self.statusItem.connected(product)
         
-        if (Preferences.getLastSelectedAnrMode() != nil) {
-            let result = sendSetGetAnrModePacket(Preferences.getLastSelectedAnrMode()!)
+        if let lastSelectedAnrMode = PreferenceManager.getLastSelectedAnrMode(product) {
+            let result = sendSetGetAnrModePacket(lastSelectedAnrMode)
             if (!result) {
                 self.noiseCancelModeChanged(nil)
             }
@@ -92,6 +112,13 @@ extension AppDelegate: BluetoothDelegate {
         print("[BT]: Disconnected")
         #endif
         self.statusItem.disconnected()
+    }
+    
+    func bassControlStepChanged(_ step: Int?) {
+        #if DEBUG
+        print("[BassControlEvent]: \(step != nil ? String(step!) : "nil")")
+        #endif
+        self.statusItem.setBassControlStep(step)
     }
     
     func batteryLevelStatus(_ level: Int?) {
@@ -108,13 +135,22 @@ extension AppDelegate: BluetoothDelegate {
         self.statusItem.setNoiseCancelMode(mode)
         
         if (mode != nil) {
-            Preferences.setLastSelectedAnrMode(mode!)
+            if let product = Bose.ProductIds.getById(self.bt.getProductId()) {
+                PreferenceManager.setLastSelectedAnrMode(product: product, anrMode: mode!)
+            }
         }
     }
 }
 
 extension AppDelegate: StatusItemDelegate {
-
+    
+    func bassControlStepSelected(_ step: Int) {
+        let result = sendSetGetBassControlPacket(step)
+        if (!result) {
+            self.noiseCancelModeChanged(nil)
+        }
+    }
+    
     func menuWillOpen(_ menu: NSMenu) {
         for menuItem in menu.items {
             switch menuItem.tag {
@@ -126,6 +162,10 @@ extension AppDelegate: StatusItemDelegate {
                 }
                 if (self.bt.sendPacketSync(&packet) == false) {
                     self.batteryLevelStatus(nil)
+                }
+            case StatusItem.MenuItemTags.BASS_CONTROL.rawValue:
+                if (sendGetBassControlPacket() == false) {
+                    self.bassControlStepChanged(nil)
                 }
             case StatusItem.MenuItemTags.NOISE_CANCEL_MODE.rawValue:
                 guard var packet = Bose.generateGetAnrModePacket() else {

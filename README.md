@@ -21,6 +21,7 @@ QuietComfort 35 series 2でも、たぶん動作すると思いますが、わ�
 
 ## 対象機種
 QuietComfort 35
+SoundWear
 
 ## 動作環境
 macOS 10.13 (High Sierra) 以降。

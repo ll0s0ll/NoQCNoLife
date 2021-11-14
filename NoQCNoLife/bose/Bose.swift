@@ -1,5 +1,5 @@
 /*
- Copyright (C) 2020 Shun Ito
+ Copyright (C) 2021 Shun Ito
  
  This file is part of 'No QC, No Life'.
  
@@ -43,8 +43,9 @@ class Bose {
     enum ProductIds {
 //        case ISAAC,
         case WOLFCASTLE
-        /*ICE, FOREMAN, POWDER, FLURRY, HARVEY, FOLGERS, KLEOS, LEVI,
-        LEVI_SLAVE, MINNOW,*/
+        /*ICE, FOREMAN, POWDER, FLURRY, HARVEY, FOLGERS,*/
+        case KLEOS
+        /*LEVI, LEVI_SLAVE, MINNOW,*/
         case BAYWOLF
         /*, ATLAS, BB2, CHIBI, STETSON, LEVI_CASE, MOONRAKER, CHAMP,
         KCUP, BB1*/
@@ -59,7 +60,7 @@ class Bose {
 //            case 16403: return .FLURRY
 //            case 16401: return .HARVEY
 //            case 16400: return .FOLGERS
-//            case 16407: return .KLEOS
+            case 16407: return .KLEOS
 //            case 16408: return .LEVI
 //            case 16409: return .LEVI_SLAVE
 //            case 16418: return .MINNOW
@@ -87,7 +88,7 @@ class Bose {
 //            case .FLURRY: return 16403
 //            case .HARVEY: return 16401
 //            case .FOLGERS: return 16400
-//            case .KLEOS: return 16407
+            case .KLEOS: return 16407
 //            case .LEVI: return 16408
 //            case .LEVI_SLAVE: return 16409
 //            case .MINNOW: return 16418
@@ -114,7 +115,7 @@ class Bose {
 //            case .FLURRY: return "Bose SoundSport Pulse"
 //            case .HARVEY: return "Bose Revolve+ Soundlink"
 //            case .FOLGERS: return "Bose Revolve Soundlink"
-//            case .KLEOS: return "Bose SoundWear"
+            case .KLEOS: return "SoundWear"
 //            case .LEVI: return "Bose SoundSport Free"
 //            case .LEVI_SLAVE: return "Bose SoundSport Free"
 //            case .MINNOW: return "Bose SoundLink Micro"
@@ -213,8 +214,16 @@ class Bose {
         return SettingsFunctionBlock.generateGetAnrModePacket().getPacket()
     }
     
+    static func generateGetBassControlPacket() -> [Int8]? {
+        return SettingsFunctionBlock.generateGetBassControlPacket().getPacket()
+    }
+    
     static func generateSetGetAnrModePacket(_ mode: Bose.AnrMode) -> [Int8]? {
         return SettingsFunctionBlock.generateSetGetAnrModePacket(mode).getPacket()
+    }
+    
+    static func generateSetGetBassControlPacket(_ step: Int) -> [Int8]? {
+        return SettingsFunctionBlock.generateSetGetBassControllPacket(step).getPacket()
     }
     
     //
