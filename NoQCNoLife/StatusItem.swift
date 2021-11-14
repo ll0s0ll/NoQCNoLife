@@ -56,30 +56,30 @@ class StatusItem {
         self.statusItem.menu = mainMenu
     }
     
-    func buildMenuItems(_ id: Bose.ProductIds) -> [NSMenuItem] {
+    func buildMenuItems(_ product: Bose.Products) -> [NSMenuItem] {
         var menuItems: [NSMenuItem] = []
-        switch id {
-        case Bose.ProductIds.WOLFCASTLE: // QuietComfort 35
+        switch product {
+        case Bose.Products.WOLFCASTLE: // QuietComfort 35
             menuItems.append(BatteryLevelMenuItem.init())
             menuItems.append(NoiseCancelModeMenuItem.init(high: true, low: true, wind: false, off: true,
                                                           delegate: self.statusItemDelegate))
-        case Bose.ProductIds.BAYWOLF: // Bose QuietComfort 35 Series 2
+        case Bose.Products.BAYWOLF: // Bose QuietComfort 35 Series 2
             menuItems.append(BatteryLevelMenuItem.init())
             menuItems.append(NoiseCancelModeMenuItem.init(high: true, low: true, wind: false, off: true,
                                                           delegate: self.statusItemDelegate))
-        case Bose.ProductIds.KLEOS: // SoundWear
+        case Bose.Products.KLEOS: // SoundWear
             menuItems.append(BatteryLevelMenuItem.init())
             menuItems.append(BassControlMenuItem.init(steps:8, delegate: self.statusItemDelegate))
         }
         return menuItems
     }
     
-    func connected (_ productId: Bose.ProductIds!) {
+    func connected (_ product: Bose.Products!) {
         let deviceNameMenuItemTag = StatusItem.MenuItemTags.DEVICE_NAME.rawValue
         let deviceNameMenuItem = self.statusItem.menu?.item(withTag: deviceNameMenuItemTag) as! DeviceNameMenuItem
-        deviceNameMenuItem.setDeviceName(productId.getProductName())
+        deviceNameMenuItem.setDeviceName(product.getName())
         
-        for menuItem in buildMenuItems(productId).reversed() {
+        for menuItem in buildMenuItems(product).reversed() {
             self.statusItem.menu?.insertItem(menuItem, at: 1)
         }
     }

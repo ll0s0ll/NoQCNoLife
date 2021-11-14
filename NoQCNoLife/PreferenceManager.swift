@@ -24,23 +24,23 @@ class PreferenceManager {
     
     static let LAST_SELECTED_ANR_MODE_KEY: String = "lastSelectedAnrMode"
     
-    static func getLastSelectedAnrMode(_ product: Bose.ProductIds) -> Bose.AnrMode? {
+    static func getLastSelectedAnrMode(_ product: Bose.Products) -> Bose.AnrMode? {
         let storedObject = UserDefaults.standard.dictionary(forKey: LAST_SELECTED_ANR_MODE_KEY)
-        if let storedValue = storedObject?[String(product.getProductId())] as? Int8 {
+        if let storedValue = storedObject?[String(product.getId())] as? Int8 {
             return Bose.AnrMode(rawValue: storedValue)
         } else {
             return nil
         }
     }
     
-    static func setLastSelectedAnrMode(product: Bose.ProductIds, anrMode: Bose.AnrMode) {
+    static func setLastSelectedAnrMode(product: Bose.Products, anrMode: Bose.AnrMode) {
         
         var storedObject = UserDefaults.standard.dictionary(forKey: LAST_SELECTED_ANR_MODE_KEY)
         
         if (storedObject == nil) {
-            storedObject = [String(product.getProductId()): anrMode.rawValue] as [String: Any]
+            storedObject = [String(product.getId()): anrMode.rawValue] as [String: Any]
         } else {
-            storedObject![String(product.getProductId())] = anrMode.rawValue
+            storedObject![String(product.getId())] = anrMode.rawValue
         }
         
         UserDefaults.standard.set(storedObject, forKey: LAST_SELECTED_ANR_MODE_KEY)

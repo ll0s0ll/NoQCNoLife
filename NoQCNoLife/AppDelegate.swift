@@ -90,12 +90,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 extension AppDelegate: BluetoothDelegate {
     
     func onConnect() {
-        guard let product = Bose.ProductIds.getById(self.bt.getProductId()) else {
+        guard let product = Bose.Products.getById(self.bt.getProductId()) else {
             assert(false, "Invalid prodcut id.")
             return
         }
         #if DEBUG
-        print("[BT]: Connected to \(product.getProductName())")
+        print("[BT]: Connected to \(product.getName())")
         #endif
         self.statusItem.connected(product)
         
@@ -135,7 +135,7 @@ extension AppDelegate: BluetoothDelegate {
         self.statusItem.setNoiseCancelMode(mode)
         
         if (mode != nil) {
-            if let product = Bose.ProductIds.getById(self.bt.getProductId()) {
+            if let product = Bose.Products.getById(self.bt.getProductId()) {
                 PreferenceManager.setLastSelectedAnrMode(product: product, anrMode: mode!)
             }
         }

@@ -40,7 +40,7 @@ class Bose {
     }
     
     
-    enum ProductIds {
+    enum Products {
 //        case ISAAC,
         case WOLFCASTLE
         /*ICE, FOREMAN, POWDER, FLURRY, HARVEY, FOLGERS,*/
@@ -50,7 +50,7 @@ class Bose {
         /*, ATLAS, BB2, CHIBI, STETSON, LEVI_CASE, MOONRAKER, CHAMP,
         KCUP, BB1*/
         
-        static func getById(_ id: Int!) -> ProductIds? {
+        static func getById(_ id: Int!) -> Products? {
             switch id {
 //            case 16394: return .ISAAC
             case 16396: return .WOLFCASTLE
@@ -78,7 +78,7 @@ class Bose {
             }
         }
         
-        func getProductId() -> Int {
+        func getId() -> Int {
             switch self {
 //            case .ISAAC: return 16394
             case .WOLFCASTLE: return 16396
@@ -105,10 +105,10 @@ class Bose {
             }
         }
         
-        func getProductName() -> String {
+        func getName() -> String {
             switch self {
 //            case .ISAAC: return "Bose AE2 SoundLink"
-            case .WOLFCASTLE: return "Bose QuietComfort 35"
+            case .WOLFCASTLE: return "QuietComfort 35"
 //            case .ICE: return "Bose SoundSport"
 //            case .FOREMAN: return "Bose SoundLink Color II"
 //            case .POWDER: return "Bose QuietControl 30"
@@ -119,7 +119,7 @@ class Bose {
 //            case .LEVI: return "Bose SoundSport Free"
 //            case .LEVI_SLAVE: return "Bose SoundSport Free"
 //            case .MINNOW: return "Bose SoundLink Micro"
-            case .BAYWOLF: return "Bose QuietComfort 35 Series 2"
+            case .BAYWOLF: return "QuietComfort 35 Series 2"
 //            case .ATLAS: return "Bose Aviation Headset"
 //            case .BB2: return "BOSEbuild:2 (UNLISTED; DEV ONLY)"
 //            case .CHIBI: return "Bose Chibi"
@@ -187,7 +187,7 @@ class Bose {
     }
     
     static func isSupportedBoseProduct(venderId: Int, productId: Int) -> Bool {
-        return venderId == self.VENDER_ID && self.ProductIds.getById(productId) != nil ? true : false
+        return venderId == self.VENDER_ID && self.Products.getById(productId) != nil ? true : false
     }
     
     static func parsePacket(packet: inout [Int8], eventHandler: EventHandler) {
