@@ -1,5 +1,5 @@
 /*
- Copyright (C) 2020 Shun Ito
+ Copyright (C) 2021 Shun Ito
  
  This file is part of 'No QC, No Life'.
  
@@ -22,14 +22,14 @@ import IOBluetooth
 import os.log
 
 class Bt {
+
+    private var connectedChannel: IOBluetoothRFCOMMChannel?
+    private var connectedDevice: IOBluetoothDevice?
+    private var productId: Int?
     
-    var connectedChannel: IOBluetoothRFCOMMChannel?
-    var connectedDevice: IOBluetoothDevice?
-    var productId: Int?
+    private var delegate: BluetoothDelegate
     
-    var delegate: BluetoothDelegate
-    
-    var disconnectBtUserNotification: IOBluetoothUserNotification?
+    private var disconnectBtUserNotification: IOBluetoothUserNotification?
     
     init(_ delegate: BluetoothDelegate) {
         self.connectedChannel = nil
@@ -50,7 +50,7 @@ class Bt {
         self.disconnectBtUserNotification?.unregister()
     }
     
-    func findConnectedBoseDevice(connectedDevice: inout IOBluetoothDevice!, productId: inout Int!) -> Bool {
+    private func findConnectedBoseDevice(connectedDevice: inout IOBluetoothDevice!, productId: inout Int!) -> Bool {
         guard let pairedDevices = IOBluetoothDevice.pairedDevices() else {
             return false
         }
@@ -112,7 +112,7 @@ class Bt {
                                                                            selector: #selector(Bt.onDisconnectDetected))
     }
     
-    func openConnection(connectedDevice: IOBluetoothDevice!, rfcommChannel: inout IOBluetoothRFCOMMChannel!) -> Bool {
+    private func openConnection(connectedDevice: IOBluetoothDevice!, rfcommChannel: inout IOBluetoothRFCOMMChannel!) -> Bool {
         
         assert(connectedDevice != nil, "connectedDevice == nil")
         
@@ -136,7 +136,7 @@ class Bt {
         return true
     }
     
-    func processPnPInfomation (_ device: IOBluetoothDevice) -> (venderId:Int, productId: Int)? {
+    private func processPnPInfomation (_ device: IOBluetoothDevice) -> (venderId:Int, productId: Int)? {
         
         let uuid: BluetoothSDPUUID16 = 0x1200 // PnPInformation
         let spdUuid: IOBluetoothSDPUUID = IOBluetoothSDPUUID(uuid16: uuid)
@@ -163,6 +163,30 @@ class Bt {
         return (venderId.intValue, productId.intValue)
     }
     
+    func sendGetAnrModePacket () -> Bool {
+        guard var packet = Bose.generateGetAnrModePacket() else {
+            os_log("Failed to generate getAnrModePacket.", type: .error)
+            return false
+        }
+        return sendPacketSync(&packet)
+    }
+    
+    func sendGetBassControlPacket () -> Bool {
+        guard var packet = Bose.generateGetBassControlPacket() else {
+            os_log("Failed to generate getBassControlPacket.", type: .error)
+            return false
+        }
+        return sendPacketSync(&packet)
+    }
+    
+    func sendGetBatteryLevelPacket () -> Bool {
+        guard var packet = Bose.generateGetBatteryLevelPacket() else {
+            os_log("Failed to generate getBatteryLevelPacket.", type: .error)
+            return false
+        }
+        return sendPacketSync(&packet)
+    }
+    
     /*func sendPacketAsync(_ packet: inout [Int8]) {
         let result = self.connectedChannel?.writeAsync(&packet, length: UInt16(packet.count), refcon: &(self.delegate))
         if (result != kIOReturnSuccess) {
@@ -174,7 +198,7 @@ class Bt {
         }
     }*/
     
-    func sendPacketSync(_ packet: inout [Int8]) -> Bool {
+    private func sendPacketSync(_ packet: inout [Int8]) -> Bool {
         let result = self.connectedChannel?.writeSync(&packet, length: UInt16(packet.count))
         if (result == nil || result != kIOReturnSuccess) {
             return false
@@ -183,6 +207,22 @@ class Bt {
         print("[Sent]: \(packet)")
         #endif
         return true
+    }
+    
+    func sendSetGetAnrModePacket(_ anrMode: Bose.AnrMode) -> Bool {
+        guard var packet = Bose.generateSetGetAnrModePacket(anrMode) else {
+            os_log("Failed to generate setGetAnrPacket.", type: .error)
+            return false
+        }
+        return sendPacketSync(&packet)
+    }
+    
+    func sendSetGetBassControlPacket(_ step: Int) -> Bool {
+        guard var packet = Bose.generateSetGetBassControlPacket(step) else {
+            os_log("Failed to generate setGetBassControl packet.", type: .error)
+            return false
+        }
+        return sendPacketSync(&packet)
     }
 }
 

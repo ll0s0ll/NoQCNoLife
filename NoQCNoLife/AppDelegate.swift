@@ -51,40 +51,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         super.awakeFromNib()
         self.statusItem = StatusItem(self)
     }
-    
-    private func sendGetBassControlPacket () -> Bool {
-        guard var packet = Bose.generateGetBassControlPacket() else {
-            os_log("Failed to generate getBassControlPacket.", type: .error)
-            return false
-        }
-        return self.bt.sendPacketSync(&packet)
-    }
-    
-    private func sendSetGetAnrModePacket(_ anrMode: Bose.AnrMode) -> Bool {
-        assert(self.bt != nil, "self.bt is nil")
-        
-        guard var packet = Bose.generateSetGetAnrModePacket(anrMode) else {
-            os_log("Failed to generate setGetAnrPacket.", type: .error)
-            return false
-        }
-        if (self.bt.sendPacketSync(&packet) == false) {
-            return false
-        }
-        
-        return true
-    }
-    
-    private func sendSetGetBassControlPacket(_ step: Int) -> Bool {
-        guard var packet = Bose.generateSetGetBassControlPacket(step) else {
-            os_log("Failed to generate setGetBassControl packet.", type: .error)
-            return false
-        }
-        if (self.bt.sendPacketSync(&packet) == false) {
-            return false
-        }
-        
-        return true
-    }
 }
 
 extension AppDelegate: BluetoothDelegate {
@@ -100,8 +66,7 @@ extension AppDelegate: BluetoothDelegate {
         self.statusItem.connected(product)
         
         if let lastSelectedAnrMode = PreferenceManager.getLastSelectedAnrMode(product) {
-            let result = sendSetGetAnrModePacket(lastSelectedAnrMode)
-            if (!result) {
+            if (!self.bt.sendSetGetAnrModePacket(lastSelectedAnrMode)) {
                 self.noiseCancelModeChanged(nil)
             }
         }
@@ -145,8 +110,7 @@ extension AppDelegate: BluetoothDelegate {
 extension AppDelegate: StatusItemDelegate {
     
     func bassControlStepSelected(_ step: Int) {
-        let result = sendSetGetBassControlPacket(step)
-        if (!result) {
+        if (!self.bt.sendSetGetBassControlPacket(step)) {
             self.noiseCancelModeChanged(nil)
         }
     }
@@ -155,25 +119,15 @@ extension AppDelegate: StatusItemDelegate {
         for menuItem in menu.items {
             switch menuItem.tag {
             case StatusItem.MenuItemTags.BATTERY_LEVEL.rawValue:
-                guard var packet = Bose.generateGetBatteryLevelPacket() else {
-                    os_log("Failed to generate getBatteryLevelPacket.", type: .error)
-                    self.batteryLevelStatus(nil)
-                    return
-                }
-                if (self.bt.sendPacketSync(&packet) == false) {
+                if (!self.bt.sendGetBatteryLevelPacket()) {
                     self.batteryLevelStatus(nil)
                 }
             case StatusItem.MenuItemTags.BASS_CONTROL.rawValue:
-                if (sendGetBassControlPacket() == false) {
+                if (!self.bt.sendGetBassControlPacket()) {
                     self.bassControlStepChanged(nil)
                 }
             case StatusItem.MenuItemTags.NOISE_CANCEL_MODE.rawValue:
-                guard var packet = Bose.generateGetAnrModePacket() else {
-                    os_log("Failed to generate getAnrModePacket.", type: .error)
-                    self.noiseCancelModeChanged(nil)
-                    return
-                }
-                if (self.bt.sendPacketSync(&packet) == false) {
+                if (!self.bt.sendGetAnrModePacket()) {
                     self.noiseCancelModeChanged(nil)
                 }
             default: break
@@ -182,8 +136,7 @@ extension AppDelegate: StatusItemDelegate {
     }
     
     func noiseCancelModeSelected(_ mode: Bose.AnrMode) {
-        let result = sendSetGetAnrModePacket(mode)
-        if (!result) {
+        if (!self.bt.sendSetGetAnrModePacket(mode)) {
             self.noiseCancelModeChanged(nil)
         }
     }
