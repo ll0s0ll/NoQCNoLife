@@ -1,5 +1,5 @@
 /*
- Copyright (C) 2020 Shun Ito
+ Copyright (C) 2021 Shun Ito
  
  This file is part of 'No QC, No Life'.
  
@@ -28,6 +28,7 @@ class StatusItem {
     enum MenuItemTags: Int {
         case UNDEFINED, // NSMenuItemのtagに0を指定すると、なぜかNSMenu.item(withTag: tag)でエラーが出る。
         ABOUT,
+        BASS_CONTROL,
         BATTERY_LEVEL,
         DEVICE_NAME,
         NOISE_CANCEL_MODE,
@@ -55,27 +56,30 @@ class StatusItem {
         self.statusItem.menu = mainMenu
     }
     
-    func buildMenuItems(_ id: Bose.ProductIds) -> [NSMenuItem] {
+    func buildMenuItems(_ product: Bose.Products) -> [NSMenuItem] {
         var menuItems: [NSMenuItem] = []
-        switch id {
-        case Bose.ProductIds.WOLFCASTLE: // QuietComfort 35
+        switch product {
+        case Bose.Products.WOLFCASTLE: // QuietComfort 35
             menuItems.append(BatteryLevelMenuItem.init())
             menuItems.append(NoiseCancelModeMenuItem.init(high: true, low: true, wind: false, off: true,
                                                           delegate: self.statusItemDelegate))
-        case Bose.ProductIds.BAYWOLF: // Bose QuietComfort 35 Series 2
+        case Bose.Products.BAYWOLF: // Bose QuietComfort 35 Series 2
             menuItems.append(BatteryLevelMenuItem.init())
             menuItems.append(NoiseCancelModeMenuItem.init(high: true, low: true, wind: false, off: true,
                                                           delegate: self.statusItemDelegate))
+        case Bose.Products.KLEOS: // SoundWear
+            menuItems.append(BatteryLevelMenuItem.init())
+            menuItems.append(BassControlMenuItem.init(steps:8, delegate: self.statusItemDelegate))
         }
         return menuItems
     }
     
-    func connected (_ productId: Bose.ProductIds!) {
+    func connected (_ product: Bose.Products!) {
         let deviceNameMenuItemTag = StatusItem.MenuItemTags.DEVICE_NAME.rawValue
         let deviceNameMenuItem = self.statusItem.menu?.item(withTag: deviceNameMenuItemTag) as! DeviceNameMenuItem
-        deviceNameMenuItem.setDeviceName(productId.getProductName())
+        deviceNameMenuItem.setDeviceName(product.getName())
         
-        for menuItem in buildMenuItems(productId).reversed() {
+        for menuItem in buildMenuItems(product).reversed() {
             self.statusItem.menu?.insertItem(menuItem, at: 1)
         }
     }
@@ -95,6 +99,13 @@ class StatusItem {
         }
     }
     
+    func setBassControlStep(_ step: Int?) {
+        let tag = StatusItem.MenuItemTags.BASS_CONTROL.rawValue
+        let menuItem = self.statusItem.menu?.item(withTag: tag) as! BassControlMenuItem
+        menuItem.setBassControlStep(step)
+        
+    }
+    
     func setBatteryLevel(_ level: Int?) {
         let tag = StatusItem.MenuItemTags.BATTERY_LEVEL.rawValue
         let menuItem = self.statusItem.menu?.item(withTag: tag) as! BatteryLevelMenuItem
@@ -110,6 +121,7 @@ class StatusItem {
 
 
 protocol StatusItemDelegate : NSMenuDelegate {
+    func bassControlStepSelected(_ step: Int)
     func noiseCancelModeSelected(_ mode: Bose.AnrMode)
 }
 
@@ -131,6 +143,56 @@ class AboutMenuItem : NSMenuItem {
         // 一旦フォアグランドにしてから、パネルを表示する。
         NSApp.activate(ignoringOtherApps: true)
         NSApp.orderFrontStandardAboutPanel(nil)
+    }
+}
+
+class BassControlMenuItem : NSMenuItem {
+    
+    var delegate: StatusItemDelegate
+    var steps: Int
+    var titleStr = "Dialogue Adjust"
+    
+    init(steps: Int, delegate: StatusItemDelegate) {
+        self.steps = steps
+        self.delegate = delegate
+        
+        super.init(title: "\(titleStr): N/A", action: nil, keyEquivalent: "")
+        
+        self.tag = StatusItem.MenuItemTags.BASS_CONTROL.rawValue
+        self.target = self
+        self.submenu = buildSubmenu()
+    }
+    
+    required init(coder decoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    @objc func bassControlStepSelected(_ sender: NSMenuItem) {
+        self.delegate.bassControlStepSelected(sender.tag)
+    }
+    
+    func buildSubmenu() -> NSMenu {
+        let submenu = NSMenu.init()
+        
+        for step in 0 ... self.steps {
+            let menuItem = NSMenuItem.init(title: String(step - step * 2),
+                                           action: #selector(self.bassControlStepSelected(_:)),
+                                           keyEquivalent: "")
+            menuItem.target = self
+            menuItem.tag = step - step * 2
+            submenu.addItem(menuItem)
+        }
+        
+        return submenu
+    }
+    
+    func setBassControlStep(_ step: Int?) {
+        if (step == nil) {
+            self.title = "\(titleStr): error"
+        } else {
+            self.title = "\(titleStr): \(step!)"
+        }
     }
 }
 

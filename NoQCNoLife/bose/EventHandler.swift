@@ -1,5 +1,5 @@
 /*
- Copyright (C) 2020 Shun Ito
+ Copyright (C) 2021 Shun Ito
  
  This file is part of 'No QC, No Life'.
  
@@ -22,4 +22,5 @@ protocol EventHandler {
     func bmapVersionEvent(_ version: String?)
     func batteryLevelStatus(_ level: Int?)
     func noiseCancelModeChanged(_ mode: Bose.AnrMode?)
+    func bassControlStepChanged(_ step: Int?)
 }
